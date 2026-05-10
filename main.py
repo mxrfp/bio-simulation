@@ -97,7 +97,7 @@ random_add(param["preds"], param["creat"], param["food"], mapp)
 while True:
     os.system('cls' if os.name == 'nt' else 'clear')
     print(mapp)
-    time.sleep(0.5)
+    time.sleep(param["fr"])
     update(mapp)
 
     
