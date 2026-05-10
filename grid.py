@@ -2,6 +2,7 @@ from math import sqrt
 from creature import Creature
 from creature import Pred
 from food import Food
+from colorama import Fore, Back, Style, init
 
 class Grid:
     def __init__(self, l: int, h: int):
@@ -9,12 +10,23 @@ class Grid:
         self.l = l
         self.h = h
     def __str__(self):
-        #replace 0 with ~
-        printable_grd = [[i if i == 0 else '~' for i in self.grid[n]] for n in range(self.h)]
+        #replaces element with strings
+        printable_grd = ""
+        for row in self.grid:
+            printable_row = ""
+            for el in row:
+                if el == 0:
+                    printable_row += (Back.CYAN + "  " + Style.RESET_ALL)
+                elif isinstance(el, Food):
+                    printable_row += (Back.LIGHTYELLOW_EX + "  " + Style.RESET_ALL)
+                elif type(el) == Pred:
+                    printable_row += (Back.RED + "  " + Style.RESET_ALL)
+                elif isinstance(el, Creature):
+                    printable_row += (Back.WHITE + "  " + Style.RESET_ALL)
+            printable_grd += (printable_row + "\n")
         #what is printed
-        return "".join([str(printable_grd[i])+'\n' for i in range(self.h)])\
-                .replace("[", "").replace("]", "")
-    def add(self, to_add: Creature):
+        return printable_grd
+    def add(self, to_add: Creature | Food):
         """
         tries to replace pos with to_add if space is empty by giving:
             to_add: obj to add
@@ -31,7 +43,8 @@ class Grid:
         returns None"""
 
         #check if it can move obj in init_pos
-        if isinstance(self.grid[init_pos[1]][init_pos[0]], Creature) and self.grid[final_pos[1]][final_pos[0]] == 0:
+        if isinstance(self.grid[init_pos[1]][init_pos[0]], Creature) and (self.grid[final_pos[1]][final_pos[0]] == 0\
+                                                                          or isinstance(self.grid[final_pos[1]][final_pos[0]], Food)):
             #final_pos = obj , init_pos = 0
             self.grid[final_pos[1]][final_pos[0]] = self.grid[init_pos[1]][init_pos[0]]
             self.grid[init_pos[1]][init_pos[0]] = 0
@@ -66,6 +79,16 @@ class Grid:
                 if isinstance(element, Food):
                     found.append(element.position)
         return tuple(found) if found else None
+    def get_spaces(self) -> list:
+        """
+        gets coords of all free spaces on the grid
+        """
+        found = []
+        for y, row in enumerate(self.grid):
+            for x, element in enumerate(row):
+                if element == 0:
+                    found.append((x, y))
+        return found
     def get_nearest(self, obj_coord: tuple[int, int], coords: tuple[tuple[int, int]]):
         """
         Gets the nearest obj to an other object by giving:
