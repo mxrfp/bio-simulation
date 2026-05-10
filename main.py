@@ -2,8 +2,8 @@ from creature import Creature
 from creature import Pred
 from grid import Grid
 from food import Food
-import os
 import time
+import os
 import random
 
 def update(grid) -> None:
@@ -52,14 +52,52 @@ def random_add(num_of_preds: int, num_of_creat : int, num_of_food: int, grid: Gr
                     grid.add(Food(coord, food_h))
 
 
-l = 30
-mapp = Grid(l,l)
-random_add(0, 10, 70, mapp)
+b = None
+h = None
+
+param: dict= {
+        "b": None,
+        "h": None,
+        "preds": None,
+        "creat": None, 
+        "food": None, 
+        "fr": None
+    }
+counter = 0
+mask = list(param.keys())
+
+while counter != len(param):
+    try:
+        if param[mask[counter]] is None:
+            param[mask[counter]] = input(f"value of {mask[counter]}('back' to modify previous value):")
+            if param[mask[counter]] == "back":
+                counter = max(0, counter-1)
+                param[mask[counter]] = None
+                param[mask[counter+ 1]] = None
+                continue
+            if counter == len(mask)-1:
+                param[mask[counter]] = float(param[mask[counter]])
+            else:
+                param[mask[counter]] = int(param[mask[counter]])
+        counter += 1
+    except ValueError:
+        print("Value is not valid")
+        param[mask[counter]] = None
+
+
+
+
+
+
+
+mapp = Grid(param["b"],param["h"]) 
+random_add(param["preds"], param["creat"], param["food"], mapp)
 
 
 while True:
+    os.system('cls' if os.name == 'nt' else 'clear')
     print(mapp)
     time.sleep(0.5)
-    os.system('cls' if os.name == 'nt' else 'clear')
     update(mapp)
+
     
