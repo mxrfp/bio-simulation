@@ -12,7 +12,6 @@
    - 7.2 Entities and Behaviors
    - 7.3 Main Simulation Loop
 8. Known Limitations and Future Work
-9. License
 
 ---
 
@@ -98,5 +97,3 @@ The simulation operates on a turn-based architecture synchronized by the main co
 * **Spatial Conflict Resolution:** During the simultaneous movement execution phase, edge cases may arise where multiple entities attempt to transition into the identical final coordinate. Advanced collision handling is slated for a future update.
 * **Frame Rate Parameter Integration:** The user-defined `fr` (frame rate) parameter is successfully collected during initialization but must be explicitly integrated into the `time.sleep()` cycle to supersede the hardcoded 0.5-second delay.
 
-## 9. License
-This repository is provided as-is for educational purposes, demonstrating object-oriented programming, algorithmic pathfinding, and terminal rendering techniques in Python.
