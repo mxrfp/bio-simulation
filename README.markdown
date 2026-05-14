@@ -94,6 +94,5 @@ The simulation operates on a turn-based architecture synchronized by the main co
 
 ## 8. Known Limitations and Future Work
 * **Energy Mechanics:** The `hunger` attribute for Creatures is initialized but does not currently decrement over time or trigger starvation events. Similarly, the mechanical consumption of food by standard Creatures requires full implementation.
-* **Spatial Conflict Resolution:** During the simultaneous movement execution phase, edge cases may arise where multiple entities attempt to transition into the identical final coordinate. Advanced collision handling is slated for a future update.
 
 
